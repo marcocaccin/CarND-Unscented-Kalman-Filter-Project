@@ -31,6 +31,9 @@ public:
   ///* predicted sigma points matrix
   MatrixXd Xsig_pred_;
 
+  ///* augmented sigma points matrix
+  MatrixXd Xsig_aug_;
+
   ///* time when the state is true, in us
   long long time_us_;
 
@@ -67,6 +70,9 @@ public:
   ///* Sigma point spreading parameter
   double lambda_;
 
+  ///* Evaluation metric
+  float NIS_radar_;
+  float NIS_laser_;
 
   /**
    * Constructor
@@ -102,6 +108,18 @@ public:
    * @param meas_package The measurement at k+1
    */
   void UpdateRadar(MeasurementPackage meas_package);
+
+  void AugmentedSigmaPoints(void);
+  void SigmaPointPrediction(double delta_t);
+  void PredictMeanAndCovariance(void);
+
+
 };
 
 #endif /* UKF_H */
+
+
+/**
+* A helper method to normalise an angle in the range (-pi, pi].
+*/
+void NormaliseAngle(double& angle);
